@@ -13,6 +13,7 @@ export function InteractiveBackground() {
     let animationFrameId;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
+    let isVisible = true;
 
     // Mouse coordinates with smooth interpolation
     const mouse = {
@@ -20,7 +21,7 @@ export function InteractiveBackground() {
       y: height / 2,
       targetX: width / 2,
       targetY: height / 2,
-      radius: 180,
+      radius: 160,
       active: false,
     };
 
@@ -28,7 +29,7 @@ export function InteractiveBackground() {
       theme === 'dark' ||
       (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-    // Color palettes
+    // Optimized Color palettes
     const darkPalette = [
       { r: 15, g: 118, b: 110 },  // Teal-700
       { r: 20, g: 184, b: 166 },  // Teal-500
@@ -47,39 +48,36 @@ export function InteractiveBackground() {
 
     const palette = isDark ? darkPalette : lightPalette;
 
-    // 1. Large 3D Glowing Ambient Spheres
-    const spheresCount = 5;
+    // 1. 4 Lightweight 3D Glowing Ambient Spheres
+    const spheresCount = 4;
     const spheres = Array.from({ length: spheresCount }, (_, i) => {
       const color = palette[i % palette.length];
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        baseRadius: Math.min(width, height) * (0.18 + Math.random() * 0.12),
+        baseRadius: Math.min(width, height) * (0.22 + Math.random() * 0.1),
         radius: 0,
         color,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
         phase: Math.random() * Math.PI * 2,
-        pulseSpeed: 0.008 + Math.random() * 0.006,
-        depth: 0.3 + Math.random() * 0.7, // Parallax depth factor
+        pulseSpeed: 0.007 + Math.random() * 0.005,
+        depth: 0.25 + Math.random() * 0.5,
       };
     });
 
-    // 2. Interactive Constellation Nodes
-    const nodeCount = Math.min(Math.floor((width * height) / 28000), 42);
+    // 2. Interactive Constellation Nodes (lightweight count)
+    const nodeCount = Math.min(Math.floor((width * height) / 38000), 28);
     const nodes = Array.from({ length: nodeCount }, () => {
       const color = palette[Math.floor(Math.random() * palette.length)];
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        baseX: Math.random() * width,
-        baseY: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
-        radius: 1.5 + Math.random() * 2.5,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: 1.5 + Math.random() * 1.5,
         color,
-        alpha: 0.3 + Math.random() * 0.4,
-        phase: Math.random() * Math.PI * 2,
+        alpha: isDark ? 0.45 : 0.3,
       };
     });
 
@@ -98,44 +96,46 @@ export function InteractiveBackground() {
       mouse.active = false;
     };
 
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden;
+    };
+
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    let lastTime = performance.now();
-
-    const render = (time) => {
-      const dt = Math.min((time - lastTime) / 1000, 0.1);
-      lastTime = time;
+    const render = () => {
+      if (!isVisible) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
 
       // Smooth mouse easing
-      mouse.x += (mouse.targetX - mouse.x) * 0.08;
-      mouse.y += (mouse.targetY - mouse.y) * 0.08;
+      mouse.x += (mouse.targetX - mouse.x) * 0.06;
+      mouse.y += (mouse.targetY - mouse.y) * 0.06;
 
       ctx.clearRect(0, 0, width, height);
 
-      // --- 1. RENDER 3D GLOWING AMBIENT SPHERES ---
-      spheres.forEach((s) => {
+      // --- 1. RENDER 3D AMBIENT SPHERES ---
+      for (let i = 0; i < spheres.length; i++) {
+        const s = spheres[i];
         s.phase += s.pulseSpeed;
-        s.radius = s.baseRadius + Math.sin(s.phase) * 25;
+        s.radius = s.baseRadius + Math.sin(s.phase) * 18;
 
-        // Ambient drift
         s.x += s.vx;
         s.y += s.vy;
 
-        // Bounce from canvas boundaries
         if (s.x < -s.radius) s.x = width + s.radius;
         if (s.x > width + s.radius) s.x = -s.radius;
         if (s.y < -s.radius) s.y = height + s.radius;
         if (s.y > height + s.radius) s.y = -s.radius;
 
-        // 3D Parallax offset based on mouse position
-        const parallaxX = (mouse.x - width / 2) * s.depth * 0.05;
-        const parallaxY = (mouse.y - height / 2) * s.depth * 0.05;
+        const parallaxX = (mouse.x - width / 2) * s.depth * 0.035;
+        const parallaxY = (mouse.y - height / 2) * s.depth * 0.035;
         const renderX = s.x + parallaxX;
         const renderY = s.y + parallaxY;
 
-        // Multi-stop 3D Radial Glow Gradient
         const grad = ctx.createRadialGradient(
           renderX,
           renderY,
@@ -145,78 +145,70 @@ export function InteractiveBackground() {
           s.radius
         );
 
-        const coreAlpha = isDark ? 0.12 : 0.07;
-        const midAlpha = isDark ? 0.05 : 0.03;
-        
+        const coreAlpha = isDark ? 0.1 : 0.06;
         grad.addColorStop(0, `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${coreAlpha})`);
-        grad.addColorStop(0.5, `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${midAlpha})`);
+        grad.addColorStop(0.6, `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${coreAlpha * 0.3})`);
         grad.addColorStop(1, `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, 0)`);
 
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(renderX, renderY, s.radius, 0, Math.PI * 2);
         ctx.fill();
-      });
+      }
 
-      // --- 2. RENDER INTERACTIVE CONSTELLATION & CONNECTIVE MESH ---
+      // --- 2. RENDER INTERACTIVE CONSTELLATION NODES ---
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
 
-        // Move node
         n.x += n.vx;
         n.y += n.vy;
 
-        // Wrap around screen
         if (n.x < 0) n.x = width;
         if (n.x > width) n.x = 0;
         if (n.y < 0) n.y = height;
         if (n.y > height) n.y = 0;
 
-        // Mouse magnetic reaction
         const dx = mouse.x - n.x;
         const dy = mouse.y - n.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < mouse.radius && mouse.active) {
-          const force = (1 - dist / mouse.radius) * 1.5;
+          const force = (1 - dist / mouse.radius) * 1.2;
           n.x -= (dx / dist) * force;
           n.y -= (dy / dist) * force;
         }
 
-        // Draw node with subtle glow
+        // Crisp node circle without expensive shadowBlur
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${isDark ? n.alpha : n.alpha * 0.7})`;
-        ctx.shadowColor = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, 0.5)`;
-        ctx.shadowBlur = isDark ? 8 : 4;
+        ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${n.alpha})`;
         ctx.fill();
-        ctx.shadowBlur = 0;
 
         // Connect nearby nodes
         for (let j = i + 1; j < nodes.length; j++) {
           const n2 = nodes[j];
           const distance = Math.hypot(n.x - n2.x, n.y - n2.y);
-          const maxDist = 130;
+          const maxDist = 110;
 
           if (distance < maxDist) {
-            const lineAlpha = (1 - distance / maxDist) * (isDark ? 0.15 : 0.08);
+            const lineAlpha = (1 - distance / maxDist) * (isDark ? 0.12 : 0.06);
             ctx.beginPath();
             ctx.moveTo(n.x, n.y);
             ctx.lineTo(n2.x, n2.y);
             ctx.strokeStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${lineAlpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = 0.75;
             ctx.stroke();
           }
         }
 
-        // Connect to mouse if close
+        // Connect to mouse
         if (dist < mouse.radius && mouse.active) {
-          const mouseLineAlpha = (1 - dist / mouse.radius) * (isDark ? 0.25 : 0.14);
+          const mouseLineAlpha = (1 - dist / mouse.radius) * (isDark ? 0.2 : 0.1);
           ctx.beginPath();
           ctx.moveTo(n.x, n.y);
           ctx.lineTo(mouse.x, mouse.y);
           ctx.strokeStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${mouseLineAlpha})`;
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 0.9;
           ctx.stroke();
         }
       }
@@ -231,14 +223,15 @@ export function InteractiveBackground() {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [theme]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 w-full h-full transition-opacity duration-700"
-      style={{ opacity: 0.88 }}
+      className="fixed inset-0 pointer-events-none z-0 w-full h-full transform-gpu"
+      style={{ opacity: 0.85, willChange: 'transform' }}
       aria-hidden="true"
     />
   );

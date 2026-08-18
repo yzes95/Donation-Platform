@@ -107,7 +107,7 @@ export function HomePage() {
 
             {/* Hero Search Box */}
             <form onSubmit={handleSearch} className="pt-4 max-w-2xl mx-auto">
-              <div className="relative flex flex-col sm:flex-row items-center gap-2 p-2 rounded-2xl sm:rounded-3xl bg-white/80 dark:bg-surface-darkCard/80 backdrop-blur-xl shadow-xl border border-stone-200/70 dark:border-stone-800/80">
+              <div className="relative flex flex-col sm:flex-row items-center gap-2 p-2 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-surface-darkCard/85 backdrop-blur-sm shadow-xl border border-stone-200/80 dark:border-stone-800/80 transform-gpu">
                 <div className="flex-1 flex items-center gap-3 ps-4 w-full">
                   <Search className="w-5 h-5 text-stone-400 shrink-0" />
                   <input
@@ -149,7 +149,7 @@ export function HomePage() {
 
       {/* 2. IMPACT STATS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-6 sm:p-8 rounded-3xl bg-white/75 dark:bg-surface-darkCard/75 backdrop-blur-xl border border-stone-200/70 dark:border-stone-800/70 shadow-sm">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-6 sm:p-8 rounded-3xl bg-white/85 dark:bg-surface-darkCard/85 backdrop-blur-sm border border-stone-200/80 dark:border-stone-800/80 shadow-sm transform-gpu">
           <div className="text-center space-y-1 p-3">
             <div className="text-2xl sm:text-4xl font-black text-primary-700 dark:text-primary-400 font-display">
               {formatCurrency(mockStatistics.totalDonationsAmount, currentLang)}
