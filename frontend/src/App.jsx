@@ -5,6 +5,7 @@ import { AuthProvider } from './store/AuthContext';
 import { DonationProvider } from './store/DonationContext';
 import { AppProvider } from './store/AppContext';
 import { AppRoutes } from './routes/AppRoutes';
+import { InteractiveBackground } from './components/common/InteractiveBackground';
 import { Toaster } from 'sonner';
 
 export function App() {
@@ -13,7 +14,8 @@ export function App() {
       <AuthProvider>
         <DonationProvider>
           <AppProvider>
-            <BrowserRouter>
+            <InteractiveBackground />
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
               <AppRoutes />
               <Toaster position="top-center" richColors closeButton />
             </BrowserRouter>
