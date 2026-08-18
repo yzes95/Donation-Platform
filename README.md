@@ -64,53 +64,6 @@ To guarantee that **100% of family pledges reach beneficiaries without administr
 
 ---
 
-## 🧭 Page Routes & Site Architecture
-
-The frontend is structured into three clear portals across **36 distinct routes**:
-
-### Public Portal
-1. **Home (`/`)**: Hero with search, impact statistics, urgent needs, categories, 3-step workflow, trust section, testimonials, and platform support banner.
-2. **Family Directory (`/families`)**: Search bar, category filters, governorate filters, urgency filters, sorting, and responsive family cards with funding progress.
-3. **Family Profile (`/families/:id`)**: Privacy-safe family overview, verification badges, assistance needs list, and recent donation history.
-4. **Need Details (`/services/:id`)**: Single need details, financial target, progress bar, beneficiary explanation, and direct donation CTA.
-5. **Donation Checkout (`/donate`)**: Multi-step checkout with preset amounts (EGP 50 to 5,000), custom amount, anonymous toggle, optional platform tip, and payment method selector.
-6. **Payment Processing (`/payment/processing/:referenceId`)**: Animated telemetry showing real-time gateway handshake.
-7. **Donation Confirmation (`/donation/confirmation/:referenceId`)**: Celebration, reference ID, payment details, receipt download, and tracking link.
-8. **Donation Tracking (`/track`)**: Reference code lookup with 5-stage milestone timeline.
-9. **Support Platform (`/support-platform`)**: Transparent breakdown of operational costs (AWS, database, payment fees, SMS) and dedicated platform donation form.
-10. **Platform Transparency (`/transparency`)**: Visual charts for category allocation, monthly donation volumes, and independent accounting audit statements.
-11. **About Us (`/about`)**: Vision, mission, and field verification philosophy.
-12. **Contact Us (`/contact`)**: Support inquiry form, hotline contacts, and interactive FAQ accordion.
-
-### Authenticated Family Representative Portal
-13. **Login (`/login`)**: Secure login with demo credential quick-fill.
-14. **Registration (`/register`)**: Request family access and field visit.
-15. **Dashboard (`/dashboard`)**: Total donations received, active needs, completed needs, and donation growth area chart.
-16. **Family Profile Management (`/dashboard/profile`)**: Update family background, housing status, and family members count.
-17. **Needs Management (`/dashboard/needs`)**: List of all family assistance needs with status filters and edit/delete actions.
-18. **Create Need (`/dashboard/needs/create`)**: Submit assistance request with document upload placeholder.
-19. **Edit Need (`/dashboard/needs/edit/:id`)**: Modify an existing assistance request.
-20. **Donation History (`/dashboard/donations`)**: Searchable list of all received donations with CSV export.
-21. **Donation Details (`/dashboard/donations/:id`)**: Deep view with receipt download.
-22. **Notifications (`/dashboard/notifications`)**: Alerts for new donations and verification milestones.
-23. **Account Settings (`/dashboard/settings`)**: Password changes, SMS/Email alerts, and language/theme preferences.
-
-### Admin & Governance Portal
-24. **Admin Login (`/admin/login`)**: Administrator portal authentication.
-25. **Admin Dashboard (`/admin`)**: High-level platform statistics, family donations vs platform donations comparison, pending queue alerts, and live audit feed.
-26. **Family Directory Management (`/admin/families`)**: Full registry of families with status toggle (Verified / Suspended).
-27. **Family Verification Queue (`/admin/verifications`)**: Pending field requests with approval/rejection modal.
-28. **Assistance Review (`/admin/needs-review`)**: Medical and housing assistance requests review.
-29. **Donations Monitoring (`/admin/donations`)**: All transactions with filter by type (Family vs Platform) and suspicious transaction flagging.
-30. **Payments Telemetry (`/admin/payments`)**: Gateway status for InstaPay, Vodafone Cash, Visa, and manual reconciliation tool.
-31. **User Management (`/admin/users`)**: Role and permissions control for administrators, researchers, and family reps.
-32. **Reports & Analytics (`/admin/reports`)**: Category breakdown pie charts, monthly bar charts, and exportable reports.
-33. **Audit Trail (`/admin/audit-logs`)**: Immutable administrative activity log with IP addresses and timestamps.
-34. **Notifications Broadcast (`/admin/notifications-mgmt`)**: Send SMS/App announcements to all families or specific audiences.
-35. **Platform Settings (`/admin/settings`)**: Configure monthly operational targets, FastAPI backend URL, and AWS regions.
-
----
-
 ## 🛠️ Technology Stack
 
 | Layer | Technology |
@@ -128,34 +81,6 @@ The frontend is structured into three clear portals across **36 distinct routes*
 
 ---
 
-## 🔌 API Service Layer & FastAPI Backend Integration
-
-The frontend is completely decoupled from any hardcoded backend. All data interactions pass through a clean service layer located in `frontend/src/api/`.
-
-### Configuration
-In `frontend/src/api/config.js`:
-```javascript
-// Switch to live FastAPI backend when ready:
-export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
-export const USE_MOCK = import.meta.env.VITE_USE_MOCK !== 'false'; // Set VITE_USE_MOCK=false in .env
-```
-
-### Expected Future FastAPI REST Endpoints
-
-| Frontend API Function | Expected FastAPI Route | Description |
-|---|---|---|
-| `getFamilies(filters)` | `GET /api/v1/families` | List all verified families with search and filters |
-| `getFamily(id)` | `GET /api/v1/families/{id}` | Single family details with active services |
-| `getFamilyServices(familyId)` | `GET /api/v1/families/{id}/services` | Assistance services for a specific family |
-| `createDonation(data)` | `POST /api/v1/donations` | Initiate a donation order & get reference ID |
-| `trackDonation(ref)` | `GET /api/v1/donations/track/{ref}` | Public donation status & delivery milestones |
-| `createPlatformDonation(data)`| `POST /api/v1/platform/donations` | Submit platform infrastructure support donation |
-| `login(credentials)` | `POST /api/v1/auth/login` | Returns JWT Bearer token |
-| `getAdminDashboard()` | `GET /api/v1/admin/dashboard` | Administrative overview metrics & audit logs |
-| `verifyFamily(id, action)` | `POST /api/v1/admin/verifications/{id}/action`| Approve/reject family verification |
-
----
-
 ## 🏗️ Project Structure
 
 ```
@@ -167,9 +92,9 @@ Donation-Platform/
 │   │   ├── robots.txt
 │   │   └── icons/                  # PWA application icons
 │   ├── src/
-│   │   ├── api/                    # API Service Layer & FastAPI integration points
+│   │   ├── api/                    # API Service Layer & client placeholders
 │   │   │   ├── config.js
-│   │   │   ├── client.js           # Generic fetch client wrapper
+│   │   │   ├── client.js
 │   │   │   ├── families.js
 │   │   │   ├── donations.js
 │   │   │   ├── auth.js
@@ -186,9 +111,9 @@ Donation-Platform/
 │   │   ├── layouts/                # PublicLayout, DashboardLayout, AdminLayout
 │   │   ├── lib/                    # Formatters, validators, constants, utils
 │   │   ├── pages/
-│   │   │   ├── public/             # 12 Public pages
+│   │   │   ├── public/             # 14 Public pages
 │   │   │   ├── auth/               # 3 Authentication pages
-│   │   │   ├── dashboard/          # 10 Family Representative pages
+│   │   │   ├── dashboard/          # 9 Family Representative pages
 │   │   │   └── admin/              # 11 Administrator pages
 │   │   ├── routes/                 # Central router with dynamic code splitting
 │   │   ├── store/                  # React Contexts (ThemeContext, AuthContext, DonationContext, AppContext)
@@ -216,8 +141,8 @@ Donation-Platform/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/ataa-donation-platform.git
-   cd ataa-donation-platform
+   git clone https://github.com/yzes95/Donation-Platform.git
+   cd Donation-Platform
    ```
 
 2. **Install frontend dependencies**:
@@ -247,21 +172,9 @@ Donation-Platform/
 - [x] Full bilingual support with Arabic (Default) & English + RTL layout.
 - [x] Dark, Light, and System Theme mode support.
 - [x] Complete PWA setup with web manifest, service worker, and bilingual offline fallback.
-- [x] All 12 Public pages (Home, Directory, Profile, Service Details, Checkout, Processing, Confirmation, Tracking, Platform Support, Transparency, About, Contact).
-- [x] All 3 Auth pages (Family Login, Family Registration Request, Admin Login).
-- [x] All 10 Family Representative Dashboard pages (Overview, Profile, Needs, Create Need, Edit Need, History, Details, Notifications, Settings).
-- [x] All 11 Admin Panel pages (Overview, Family Registry, Verification Queue, Needs Review, Donations, Payments, Users, Analytics, Audit Trail, Broadcasts, Settings).
+- [x] Public, Family Representative, and Admin governance portals.
 - [x] Unified Status Badge system supporting Family, Assistance, Donation, and Payment states in both themes.
-- [x] Mock data and decoupled API service layer ready for future FastAPI integration.
 - [x] Celebration confetti, downloadable donation receipt, and live reference ID tracking.
-
-### ⏳ Upcoming Tasks (Backend & Cloud Integration)
-- [ ] Connect FastAPI backend to replace mock service layer.
-- [ ] Integrate PostgreSQL database with SQLAlchemy / Tortoise ORM models.
-- [ ] Connect real payment gateway webhooks (InstaPay IPN, Vodafone Cash Merchant API, Paymob / Fawry).
-- [ ] Configure AWS infrastructure (EC2 / ECS Fargate, S3 encrypted document vault, CloudFront CDN, and Lambda webhook triggers).
-- [ ] Implement SMS notification service via AWS SNS or local telecom gateway.
-- [ ] Conduct end-to-end automated accessibility (WCAG 2.1 AA) and Lighthouse audits.
 
 ---
 
