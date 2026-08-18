@@ -85,7 +85,7 @@ export function HomePage() {
     <div className="space-y-20 pb-20">
       
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-primary-50/60 via-surface-light to-surface-light dark:from-primary-950/20 dark:via-surface-dark dark:to-surface-dark">
+      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-primary-50/20 via-transparent to-transparent dark:from-primary-950/20 dark:via-transparent dark:to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto space-y-6">
             
@@ -107,7 +107,7 @@ export function HomePage() {
 
             {/* Hero Search Box */}
             <form onSubmit={handleSearch} className="pt-4 max-w-2xl mx-auto">
-              <div className="relative flex flex-col sm:flex-row items-center gap-2 p-2 rounded-2xl sm:rounded-3xl bg-white dark:bg-surface-darkCard shadow-xl border border-stone-200/80 dark:border-stone-800">
+              <div className="relative flex flex-col sm:flex-row items-center gap-2 p-2 rounded-2xl sm:rounded-3xl bg-white/80 dark:bg-surface-darkCard/80 backdrop-blur-xl shadow-xl border border-stone-200/70 dark:border-stone-800/80">
                 <div className="flex-1 flex items-center gap-3 ps-4 w-full">
                   <Search className="w-5 h-5 text-stone-400 shrink-0" />
                   <input
@@ -149,7 +149,7 @@ export function HomePage() {
 
       {/* 2. IMPACT STATS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-6 sm:p-8 rounded-3xl bg-white dark:bg-surface-darkCard border border-stone-200/80 dark:border-stone-800 shadow-sm">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 p-6 sm:p-8 rounded-3xl bg-white/75 dark:bg-surface-darkCard/75 backdrop-blur-xl border border-stone-200/70 dark:border-stone-800/70 shadow-sm">
           <div className="text-center space-y-1 p-3">
             <div className="text-2xl sm:text-4xl font-black text-primary-700 dark:text-primary-400 font-display">
               {formatCurrency(mockStatistics.totalDonationsAmount, currentLang)}
@@ -285,7 +285,7 @@ export function HomePage() {
 
       {/* 6. HOW IT WORKS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl bg-stone-900 text-stone-100 shadow-xl space-y-12">
+        <div className="p-8 sm:p-12 rounded-3xl bg-stone-900/80 dark:bg-stone-900/70 backdrop-blur-2xl text-stone-100 shadow-xl space-y-12 border border-stone-800/80">
           <div className="text-center max-w-xl mx-auto space-y-2">
             <h2 className="text-2xl sm:text-3xl font-black text-white">
               {t('howItWorks.title')}
@@ -296,7 +296,7 @@ export function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-2xl bg-stone-800/80 border border-stone-700/60 space-y-3 relative">
+            <div className="p-6 rounded-2xl bg-stone-800/60 backdrop-blur-md border border-stone-700/50 space-y-3 relative">
               <div className="w-12 h-12 rounded-2xl bg-primary-600/30 text-primary-400 flex items-center justify-center font-bold text-lg">
                 1
               </div>
@@ -308,7 +308,7 @@ export function HomePage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-stone-800/80 border border-stone-700/60 space-y-3 relative">
+            <div className="p-6 rounded-2xl bg-stone-800/60 backdrop-blur-md border border-stone-700/50 space-y-3 relative">
               <div className="w-12 h-12 rounded-2xl bg-warm-600/30 text-warm-400 flex items-center justify-center font-bold text-lg">
                 2
               </div>
@@ -320,7 +320,7 @@ export function HomePage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-stone-800/80 border border-stone-700/60 space-y-3 relative">
+            <div className="p-6 rounded-2xl bg-stone-800/60 backdrop-blur-md border border-stone-700/50 space-y-3 relative">
               <div className="w-12 h-12 rounded-2xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center font-bold text-lg">
                 3
               </div>
@@ -338,7 +338,7 @@ export function HomePage() {
       {/* 7. TRUST & TRANSPARENCY SECTION WITH FUTURISTIC INTERACTIVE ICONS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-xl mx-auto space-y-2">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-950/60 px-3 py-1 rounded-full border border-primary-200 dark:border-primary-900">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 dark:text-primary-400 bg-primary-50/70 dark:bg-primary-950/60 backdrop-blur-sm px-3 py-1 rounded-full border border-primary-200/60 dark:border-primary-900">
             <FuturisticShield className="w-5 h-5 p-0.5 border-none shadow-none" />
             <span>{isArabic ? 'معايير الأمان والنزاهة' : 'Security & Trust Standards'}</span>
           </div>
@@ -395,7 +395,7 @@ export function HomePage() {
 
       {/* 8. PWA MOBILE APP PROMOTION BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-teal-900 via-primary-950 to-stone-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-teal-500/30">
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-teal-900/80 via-primary-950/80 to-stone-900/80 backdrop-blur-xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-teal-500/30">
           <div className="space-y-2 max-w-xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-800/60 text-teal-200 text-xs font-bold">
               <Smartphone className="w-3.5 h-3.5" />
@@ -422,7 +422,7 @@ export function HomePage() {
 
       {/* 9. SUPPORT PLATFORM OPERATIONAL BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-primary-800 via-primary-900 to-stone-900 text-white shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8 border border-primary-700/40">
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-primary-800/80 via-primary-900/80 to-stone-900/80 backdrop-blur-xl text-white shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8 border border-primary-700/40">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-700/60 text-primary-200 text-xs font-semibold">
               <Cloud className="w-3.5 h-3.5" />

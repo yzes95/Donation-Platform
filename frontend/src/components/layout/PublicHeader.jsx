@@ -60,10 +60,10 @@ export function PublicHeader() {
   ];
 
   return (
-    <header className={`sticky top-0 z-40 w-full transition-all duration-200 ${
+    <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${
       scrolled
-        ? 'bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md shadow-sm border-b border-stone-200/80 dark:border-stone-800'
-        : 'bg-white dark:bg-surface-dark border-b border-stone-100 dark:border-stone-800/60'
+        ? 'bg-white/80 dark:bg-surface-dark/85 backdrop-blur-xl shadow-sm border-b border-stone-200/70 dark:border-stone-800/70'
+        : 'bg-white/50 dark:bg-surface-dark/60 backdrop-blur-lg border-b border-stone-100/50 dark:border-stone-800/40'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
