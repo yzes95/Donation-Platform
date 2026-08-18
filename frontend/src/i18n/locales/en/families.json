@@ -1,0 +1,62 @@
+{
+  "directory": {
+    "title": "Verified Families Directory",
+    "subtitle": "Explore verified humanitarian cases and directly contribute towards their essential needs",
+    "searchPlaceholder": "Search by case title, code, or area...",
+    "filterCategory": "Assistance Category",
+    "filterGovernorate": "Governorate / Region",
+    "filterUrgency": "Urgency Level",
+    "filterStatus": "Funding Status",
+    "allCategories": "All Categories",
+    "allGovernorates": "All Governorates",
+    "allUrgencies": "All Urgency Levels",
+    "allStatuses": "All Statuses",
+    "sortBy": "Sort By",
+    "sortUrgent": "Most Urgent",
+    "sortProgress": "Closest to Goal",
+    "sortNewest": "Newest Cases",
+    "sortTargetHigh": "Target Amount (High to Low)",
+    "sortTargetLow": "Target Amount (Low to High)",
+    "showingResults": "Showing {{count}} families",
+    "noFamiliesFound": "No families found matching your criteria",
+    "clearFilters": "Clear Filters"
+  },
+  "card": {
+    "familyCode": "Case ID",
+    "membersCount": "{{count}} members",
+    "location": "General Area",
+    "verifiedCase": "Verified Case",
+    "urgentCase": "Urgent Priority",
+    "servicesCount": "{{count}} active needs",
+    "progress": "Funded",
+    "viewProfile": "View Profile & Needs",
+    "quickDonate": "Quick Donate"
+  },
+  "profile": {
+    "familySummary": "Family Overview",
+    "verificationDetails": "Field Verification Details",
+    "verifiedBy": "Inspected and verified by certified social field researcher",
+    "verificationDate": "Verification Date",
+    "privacyNotice": "To preserve dignity and privacy, full names and precise addresses are protected under strict humanitarian protocols.",
+    "socialStatus": "Social Status",
+    "monthlyIncome": "Est. Monthly Income",
+    "housingStatus": "Housing Type",
+    "assistanceNeedsTitle": "Assistance Needs & Services for this Family",
+    "assistanceNeedsSubtitle": "You can fund a specific service entirely or contribute any amount of your choice",
+    "donationHistoryTitle": "Donation History for this Family",
+    "recentDonors": "Recent Generous Donors",
+    "donateToFamilyCTA": "Donate to this Family's Needs"
+  },
+  "service": {
+    "serviceDetails": "Need / Service Details",
+    "targetAmount": "Total Target Amount",
+    "raisedAmount": "Total Raised",
+    "remainingAmount": "Remaining to Goal",
+    "urgencyLevel": "Priority Level",
+    "explanation": "Detailed Justification & Background",
+    "beneficiary": "Direct Beneficiary",
+    "donateForService": "Donate towards this Need",
+    "shareService": "Share & Spread this Case",
+    "fulfilledMessage": "This need has been fully funded thanks to your generous support!"
+  }
+}

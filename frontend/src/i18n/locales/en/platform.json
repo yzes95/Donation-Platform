@@ -1,0 +1,24 @@
+{
+  "support": {
+    "title": "Support Ataa Infrastructure & Operations",
+    "subtitle": "Your platform contributions ensure that 100% of family donations reach beneficiaries with zero administrative deductions",
+    "whySupportTitle": "Why Does Ataa Need Platform Support?",
+    "whySupportDesc": "Ataa takes zero commissions or deductions from family donations. We rely on community support to fund cloud servers, enterprise database security, and payment processing fees.",
+    "monthlyGoalTitle": "Monthly Infrastructure & Operations Goal",
+    "monthlyGoalDesc": "Monthly target to cover all AWS cloud hosting, transaction fees, and security audits",
+    "costBreakdownTitle": "Transparent Cost Breakdown",
+    "costBreakdownSubtitle": "Total financial clarity for every operational expense keeping Ataa fast and reliable",
+    "donateToPlatform": "Contribute to Platform Fund",
+    "recurringNote": "One-time contribution or recurring monthly patronage",
+    "donorPledgeNotice": "Your support keeps the platform 100% free and accessible for vulnerable families"
+  },
+  "transparency": {
+    "title": "Financial Transparency & Governance Report",
+    "subtitle": "Audited metrics on donation flows, family disbursements, and cloud operational spending",
+    "familyFundsTitle": "Family Relief Fund (100% Disbursed to Families)",
+    "platformFundsTitle": "Platform Infrastructure & Cloud Fund",
+    "allocationChartTitle": "Operational Expense Allocation",
+    "auditStatementTitle": "Independent Financial Auditing",
+    "auditStatementDesc": "Ataa undergoes quarterly independent financial audits to ensure all payments and allocations strictly comply with legal non-profit standards."
+  }
+}

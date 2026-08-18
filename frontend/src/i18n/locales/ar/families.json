@@ -1,0 +1,62 @@
+{
+  "directory": {
+    "title": "دليل الأسر والحالات المعتمدة",
+    "subtitle": "تصفح الحالات الإنسانية الموثقة وساهم في تفريج كربهم وتغطية احتياجاتهم الأساسية",
+    "searchPlaceholder": "ابحث باسم الحالة أو رقم الملف...",
+    "filterCategory": "تصنيف الاحتياج",
+    "filterGovernorate": "المحافظة / المنطقة",
+    "filterUrgency": "مستوى الاستعجال",
+    "filterStatus": "حالة التمويل",
+    "allCategories": "جميع التصنيفات",
+    "allGovernorates": "جميع المحافظات",
+    "allUrgencies": "كافة المستويات",
+    "allStatuses": "كافة الحالات",
+    "sortBy": "ترتيب حسب",
+    "sortUrgent": "الأكثر استعجالاً",
+    "sortProgress": "الأقرب للاكتمال",
+    "sortNewest": "أحدث الحالات",
+    "sortTargetHigh": "الهدف المالي (من الأعلى)",
+    "sortTargetLow": "الهدف المالي (من الأقل)",
+    "showingResults": "عرض {{count}} حالة",
+    "noFamiliesFound": "لم يتم العثور على أسر مطابقة لبحثك",
+    "clearFilters": "مسح خيارات التصفية"
+  },
+  "card": {
+    "familyCode": "رقم الملف",
+    "membersCount": "{{count}} أفراد",
+    "location": "الموقع العام",
+    "verifiedCase": "حالة محققة",
+    "urgentCase": "حالة عاجلة",
+    "servicesCount": "{{count}} احتياجات نشطة",
+    "progress": "نسبة التغطية",
+    "viewProfile": "عرض الملف والاحتياجات",
+    "quickDonate": "تبرع سريع"
+  },
+  "profile": {
+    "familySummary": "نبذة عامة عن الأسرة",
+    "verificationDetails": "تفاصيل التوثيق الميداني",
+    "verifiedBy": "تمت الزيارة والتحقق بواسطة الباحث الميداني المعتمد",
+    "verificationDate": "تاريخ الاعتماد",
+    "privacyNotice": "حرصاً على صون كرامة وخصوصية الأسر، يتم حجب الأسماء الرباعية والعناوين التفصيلية وفق المعايير الإنسانية المعتمدة.",
+    "socialStatus": "الحالة الاجتماعية",
+    "monthlyIncome": "الدخل الشهري التقريبي",
+    "housingStatus": "نوع السكن",
+    "assistanceNeedsTitle": "الاحتياجات والخدمات المطلوبة للأسرة",
+    "assistanceNeedsSubtitle": "يمكنك التبرع لتغطية خدمة محددة بالكامل أو المساهمة بأي مبلغ ترغب به",
+    "donationHistoryTitle": "سجل التبرعات المستلمة للأسرة",
+    "recentDonors": "آخر المساهمين الكرام",
+    "donateToFamilyCTA": "تبرع لاحتياجات هذه الأسرة"
+  },
+  "service": {
+    "serviceDetails": "تفاصيل الخدمة / الاحتياج",
+    "targetAmount": "المبلغ الإجمالي المطلوب",
+    "raisedAmount": "المبلغ المجموع حتى الآن",
+    "remainingAmount": "المتبقي للاكتمال",
+    "urgencyLevel": "مستوى الأولوية",
+    "explanation": "شرح مفصل للاحتياج ومسوغات الدعم",
+    "beneficiary": "المستفيد المباشر",
+    "donateForService": "المساهمة في هذا الاحتياج",
+    "shareService": "مشاركة ونشر الخدمة",
+    "fulfilledMessage": "تم اكتمال تمويل هذه الخدمة بفضل الله ثم مساهماتكم الكريمة!"
+  }
+}

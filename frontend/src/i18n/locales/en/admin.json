@@ -1,0 +1,41 @@
+{
+  "title": "Central Admin & Governance Portal",
+  "welcome": "Welcome, Administrator {{name}}",
+  "systemHealth": "System Health: 100% Operational",
+  "metrics": {
+    "totalFamilyDonations": "Total Family Donations",
+    "totalPlatformDonations": "Total Platform Infrastructure Pledges",
+    "pendingVerifications": "Pending Family Verifications",
+    "pendingNeeds": "Needs Awaiting Approval",
+    "activeFamilies": "Active Verified Families",
+    "paymentSuccessRate": "Payment Gateway Success Rate"
+  },
+  "menu": {
+    "overview": "Overview & Analytics",
+    "familyManagement": "Family Directory Management",
+    "familyVerification": "Field Verification Queue",
+    "needsReview": "Assistance Needs Review",
+    "donationsMonitoring": "Donation & Order Monitoring",
+    "paymentsMonitoring": "Payment Gateway Telemetry",
+    "userManagement": "User & Role Management",
+    "reports": "Financial & Impact Reports",
+    "auditLogs": "Security & Audit Logs",
+    "platformSettings": "Platform & Cloud Settings"
+  },
+  "verification": {
+    "queueTitle": "Families Awaiting Field Verification",
+    "reviewer": "Assigned Researcher",
+    "submittedAt": "Submitted At",
+    "docsCount": "Attached Documents",
+    "actionApprove": "Verify & Approve Case",
+    "actionReject": "Reject with Reason",
+    "actionRequestInfo": "Request Additional Info"
+  },
+  "donations": {
+    "filterAll": "All Transactions",
+    "filterFamily": "Family Cases Donations",
+    "filterPlatform": "Platform Support Donations (AWS/DB)",
+    "flagSuspicious": "Flag as Suspicious",
+    "reconcile": "Reconcile with Gateway"
+  }
+}

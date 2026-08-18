@@ -1,0 +1,41 @@
+{
+  "title": "لوحة الإدارة والرقابة المركزية",
+  "welcome": "مرحباً، المسؤول {{name}}",
+  "systemHealth": "حالة النظام: متصل وسليم 100%",
+  "metrics": {
+    "totalFamilyDonations": "إجمالي تبرعات الأسر",
+    "totalPlatformDonations": "إجمالي تبرعات دعم المنصة",
+    "pendingVerifications": "أسر بانتظار التحقق",
+    "pendingNeeds": "احتياجات بانتظار المراجعة",
+    "activeFamilies": "الأسر المعتمدة النشطة",
+    "paymentSuccessRate": "نسبة نجاح المدفوعات"
+  },
+  "menu": {
+    "overview": "نظرة عامة والتحليلات",
+    "familyManagement": "إدارة الأسر والملفات",
+    "familyVerification": "طابور التحقق الميداني",
+    "needsReview": "مراجعة طلبات المساعدة",
+    "donationsMonitoring": "مراقبة التبرعات والمعاملات",
+    "paymentsMonitoring": "مراقبة بوابات الدفع",
+    "userManagement": "إدارة المستخدمين والصلاحيات",
+    "reports": "التقارير المالية والتشغيلية",
+    "auditLogs": "سجل النشاط والأمان (Audit)",
+    "platformSettings": "إعدادات المنصة والبنية التحتية"
+  },
+  "verification": {
+    "queueTitle": "طابور الأسر بانتظار الاعتماد الميداني",
+    "reviewer": "الباحث المسؤول",
+    "submittedAt": "تاريخ التقديم",
+    "docsCount": "عدد المستندات",
+    "actionApprove": "اعتماد وتوثيق الحالة",
+    "actionReject": "رفض الطلب مع ذكر السبب",
+    "actionRequestInfo": "طلب مستندات إضافية"
+  },
+  "donations": {
+    "filterAll": "كافة التبرعات",
+    "filterFamily": "تبرعات الأسر",
+    "filterPlatform": "تبرعات دعم المنصة (AWS/DB)",
+    "flagSuspicious": "تحديد كعملية مشبوهة",
+    "reconcile": "مطابقة بنكية"
+  }
+}

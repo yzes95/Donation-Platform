@@ -1,0 +1,11 @@
+{
+  "name": "ataa-donation-platform-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ataa (عطاء) — Modern Social-Impact & Fintech Donation Management Platform",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview"
+  }
+}

@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 15 118 110;
+    --color-warm: 217 119 6;
+  }
+
+  html[dir="rtl"] {
+    font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  html[dir="ltr"] {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 9999px;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #44403c;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a29e;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2.5 rounded-xl font-medium text-white bg-primary-700 hover:bg-primary-800 active:bg-primary-900 transition-all duration-200 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-stone-900 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2.5 rounded-xl font-medium text-stone-700 dark:text-stone-200 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-stone-400 disabled:opacity-50;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-4 py-2.5 rounded-xl font-medium text-primary-700 dark:text-primary-400 border border-primary-600/30 hover:bg-primary-50 dark:hover:bg-primary-950/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50;
+  }
+
+  .btn-warm {
+    @apply inline-flex items-center justify-center px-4 py-2.5 rounded-xl font-medium text-white bg-warm-600 hover:bg-warm-700 active:bg-warm-800 transition-all duration-200 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-warm-500 focus:ring-offset-2 dark:focus:ring-offset-stone-900 disabled:opacity-50;
+  }
+
+  .card-base {
+    @apply bg-white dark:bg-surface-darkCard border border-stone-200/80 dark:border-surface-darkBorder rounded-2xl transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card-base hover:shadow-card-hover dark:hover:shadow-card-dark-hover hover:border-primary-500/30 dark:hover:border-primary-500/30;
+  }
+}

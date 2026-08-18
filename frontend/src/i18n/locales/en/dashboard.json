@@ -1,0 +1,52 @@
+{
+  "title": "Family Representative Portal",
+  "welcome": "Welcome back, {{name}}",
+  "overview": "Family Status Overview & Assistance Metrics",
+  "metrics": {
+    "totalReceived": "Total Donations Received",
+    "activeNeeds": "Active In-Progress Needs",
+    "completedNeeds": "Fulfilled Needs",
+    "pendingRequests": "Requests Under Review"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "familyProfile": "Family Profile Data",
+    "needsManagement": "Manage Needs & Services",
+    "createRequest": "Request New Assistance",
+    "donationHistory": "Received Donations History",
+    "notifications": "Notifications Center",
+    "settings": "Account & Security Settings"
+  },
+  "needsTable": {
+    "title": "Registered Assistance Needs & Services",
+    "newNeedBtn": "+ Add New Assistance Need",
+    "needName": "Need Title",
+    "category": "Category",
+    "target": "Target Goal",
+    "raised": "Raised",
+    "progress": "Progress",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "recentDonations": {
+    "title": "Recent Donations Received for this Family",
+    "donor": "Donor",
+    "service": "Need / Service",
+    "amount": "Amount",
+    "date": "Date",
+    "status": "Status",
+    "viewAll": "View All Donations"
+  },
+  "forms": {
+    "needTitle": "Assistance / Need Title",
+    "needTitlePlaceholder": "e.g., Cardiac Catheterization Surgery or 3-Month Rent Arrears",
+    "category": "Category",
+    "targetAmount": "Required Target Amount (EGP)",
+    "urgency": "Urgency & Priority Level",
+    "description": "Detailed Justification & Request Context",
+    "descriptionPlaceholder": "Explain the circumstances and documentation clearly for the field reviewer...",
+    "supportingDocs": "Supporting Invoices & Medical Documents",
+    "uploadNotice": "Documents are strictly confidential and reviewed only by authorized supervisors.",
+    "submitRequest": "Submit Assistance Request for Review"
+  }
+}

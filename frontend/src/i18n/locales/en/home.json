@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "badge": "National Non-profit Platform for Direct Family Financial Empowerment",
+    "title": "Direct Giving That Makes a Real, Tangible Difference",
+    "description": "Connecting you directly with vetted families in need after rigorous field verification. Choose a specific family or service, and give securely with 100% transparency.",
+    "searchPlaceholder": "Search by family, governorate, or service type (e.g., surgery, rent, debt relief)...",
+    "browseCta": "Browse Verified Cases",
+    "howItWorksCta": "How It Works",
+    "supportPlatformCta": "Support Platform Operations"
+  },
+  "stats": {
+    "totalDonated": "Total Donations Raised",
+    "familiesHelped": "Families Directly Empowered",
+    "completedNeeds": "Services & Needs Completed",
+    "verifiedRate": "Rigorous Field Verification"
+  },
+  "urgentNeeds": {
+    "title": "Urgent Assistance Requests",
+    "subtitle": "Critical time-sensitive needs requiring immediate intervention before deadlines expire",
+    "viewAll": "View All Urgent Needs"
+  },
+  "featuredFamilies": {
+    "title": "Families Awaiting Your Support",
+    "subtitle": "Carefully verified and documented by certified social research specialists",
+    "viewDirectory": "Complete Family Directory"
+  },
+  "categories": {
+    "title": "Assistance Categories & Services",
+    "subtitle": "Targeting donations precisely to each family's verified needs"
+  },
+  "howItWorks": {
+    "title": "How Ataa Platform Works",
+    "subtitle": "The journey of giving from field verification to transparent delivery",
+    "step1Title": "1. Field Investigation & Verification",
+    "step1Desc": "Certified field researchers visit each family, verify official documentation, and assess urgent needs while preserving dignity.",
+    "step2Title": "2. Transparent Needs Publishing",
+    "step2Desc": "Needs (medical bills, rent, tuition) are published with exact financial targets, keeping all private data confidential.",
+    "step3Title": "3. Secure Giving & Live Tracking",
+    "step3Desc": "Donors pay via local/international payment methods, receiving an official receipt and live tracking reference ID."
+  },
+  "trust": {
+    "title": "Why Donors & Families Trust Us",
+    "subtitle": "Uncompromising standards of financial integrity and beneficiary dignity",
+    "point1Title": "100% Field Verified",
+    "point1Desc": "No case is listed without verifying income records, medical diagnosis, and official contracts.",
+    "point2Title": "Strict Privacy & Dignity",
+    "point2Desc": "Family identities remain protected; financial transactions use enterprise-grade encryption.",
+    "point3Title": "Real-time Tracking",
+    "point3Desc": "Track your donation step-by-step from pending to processing and service fulfillment.",
+    "point4Title": "Dedicated Infrastructure Funding",
+    "point4Desc": "Family donations go 100% to beneficiaries; platform cloud and hosting fees are funded separately."
+  },
+  "testimonials": {
+    "title": "Impact Stories & Testimonials",
+    "subtitle": "Real voices from our donors and supported families"
+  },
+  "supportPlatformBanner": {
+    "title": "Help Keep Ataa Running and 100% Free for Families",
+    "description": "We cover AWS cloud hosting, secure database backups, and payment gateway fees through transparent platform donations, ensuring 100% of family gifts reach beneficiaries.",
+    "cta": "Support Platform Operations"
+  },
+  "ctaSection": {
+    "title": "Be the Reason a Family Finds Hope Today",
+    "subtitle": "Even the smallest contribution creates a lasting, profound impact.",
+    "donateNow": "Explore Cases & Donate",
+    "registerFamily": "Register as Family Representative"
+  }
+}
