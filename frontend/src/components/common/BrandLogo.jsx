@@ -11,38 +11,22 @@ export function BrandLogo({ size = 'md', interactive = true, link = true }) {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // Arabic letters for "عطاء"
-  const arabicLetters = [
-    { char: 'ع', delay: 0 },
-    { char: 'ط', delay: 0.06 },
-    { char: 'ا', delay: 0.12 },
-    { char: 'ء', delay: 0.18 },
-  ];
-
-  // English letters for "Ataa"
-  const englishLetters = [
-    { char: 'A', delay: 0.05 },
-    { char: 't', delay: 0.1 },
-    { char: 'a', delay: 0.15 },
-    { char: 'a', delay: 0.2 },
-  ];
-
   const content = (
     <div
-      className="relative flex items-center gap-3 select-none group cursor-pointer"
+      className="relative inline-flex items-center gap-3 select-none group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Glow aura backdrop on hover */}
       <motion.div
         className="absolute -inset-2 rounded-2xl bg-gradient-to-r from-primary-500/20 via-warm-500/20 to-teal-400/20 blur-lg opacity-0 transition-opacity duration-300 pointer-events-none"
-        animate={{ opacity: isHovered ? 0.85 : 0 }}
+        animate={{ opacity: isHovered ? 0.9 : 0 }}
       />
 
       {/* Animated Futuristic Icon Badge */}
       <motion.div
-        className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-primary-700 via-primary-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-primary-700/30 overflow-hidden border border-primary-400/30"
-        whileHover={{ scale: 1.08, rotate: [0, -3, 3, 0] }}
+        className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-primary-700 via-primary-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-primary-700/30 overflow-hidden border border-primary-400/30 shrink-0"
+        whileHover={{ scale: 1.08, rotate: [0, -2, 2, 0] }}
         transition={{ duration: 0.3 }}
       >
         {/* Shimmer light sweep */}
@@ -58,76 +42,42 @@ export function BrandLogo({ size = 'md', interactive = true, link = true }) {
         <span className="absolute top-1 end-1 w-2 h-2 rounded-full bg-warm-400 shadow-sm shadow-warm-400 animate-pulse" />
       </motion.div>
 
-      {/* Letters with Neon Light Animation */}
-      <div className="relative">
-        <div className="flex items-center gap-1">
-          {/* Arabic animated letters */}
-          <div className="flex items-center font-display text-2xl font-black tracking-tight text-stone-900 dark:text-stone-100">
-            {arabicLetters.map((l, index) => (
-              <motion.span
-                key={index}
-                className="inline-block transition-colors duration-200"
-                animate={
-                  isHovered
-                    ? {
-                        y: [0, -4, 0],
-                        color: ['#0F766E', '#14B8A6', '#F59E0B', '#0F766E'],
-                        textShadow: [
-                          '0 0 0px rgba(20,184,166,0)',
-                          '0 0 12px rgba(20,184,166,0.8), 0 0 24px rgba(245,158,11,0.5)',
-                          '0 0 0px rgba(20,184,166,0)'
-                        ]
-                      }
-                    : { y: 0, textShadow: 'none' }
-                }
-                transition={{
-                  duration: 0.6,
-                  delay: l.delay,
-                  repeat: isHovered ? Infinity : 0,
-                  repeatDelay: 0.8
-                }}
-              >
-                {l.char}
-              </motion.span>
-            ))}
-          </div>
+      {/* Brand Typography Lockup with Strict Script Directions */}
+      <div className="flex flex-col justify-center min-w-0">
+        <div className="flex items-center gap-2">
+          
+          {/* Arabic Connected Word - Always RTL */}
+          <span
+            dir="rtl"
+            lang="ar"
+            className={`font-display text-2xl font-black tracking-normal transition-all duration-300 ${
+              isHovered
+                ? 'text-transparent bg-clip-text bg-gradient-to-l from-teal-500 via-emerald-400 to-warm-500 drop-shadow-[0_0_12px_rgba(20,184,166,0.5)]'
+                : 'text-stone-900 dark:text-stone-100'
+            }`}
+          >
+            عطاء
+          </span>
 
           {/* Divider */}
-          <span className="text-stone-300 dark:text-stone-700 font-light mx-1">|</span>
+          <span className="text-stone-300 dark:text-stone-700 font-light select-none text-base">|</span>
 
-          {/* English animated letters */}
-          <div className="flex items-center font-sans text-lg font-bold text-primary-700 dark:text-primary-400">
-            {englishLetters.map((l, index) => (
-              <motion.span
-                key={index}
-                className="inline-block"
-                animate={
-                  isHovered
-                    ? {
-                        y: [0, -3, 0],
-                        color: ['#0F766E', '#F59E0B', '#14B8A6'],
-                        textShadow: [
-                          '0 0 0px rgba(245,158,11,0)',
-                          '0 0 10px rgba(245,158,11,0.8)',
-                          '0 0 0px rgba(245,158,11,0)'
-                        ]
-                      }
-                    : { y: 0, textShadow: 'none' }
-                }
-                transition={{
-                  duration: 0.5,
-                  delay: l.delay,
-                  repeat: isHovered ? Infinity : 0,
-                  repeatDelay: 0.9
-                }}
-              >
-                {l.char}
-              </motion.span>
-            ))}
-          </div>
+          {/* English Word - Always LTR */}
+          <span
+            dir="ltr"
+            lang="en"
+            className={`font-sans text-lg font-extrabold tracking-tight transition-all duration-300 ${
+              isHovered
+                ? 'text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-warm-500 to-teal-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]'
+                : 'text-primary-700 dark:text-primary-400'
+            }`}
+          >
+            Ataa
+          </span>
         </div>
 
-        <p className="text-[10px] text-stone-500 dark:text-stone-400 font-medium tracking-wide -mt-1 flex items-center gap-1">
+        {/* Tagline */}
+        <p className="text-[10px] text-stone-500 dark:text-stone-400 font-medium tracking-wide -mt-0.5 flex items-center gap-1">
           <span>{isArabic ? 'المنصة المباشرة لتمكين الأسر' : 'Direct Family Empowerment'}</span>
           {isHovered && <Sparkles className="w-2.5 h-2.5 text-warm-500 animate-spin" />}
         </p>
@@ -138,7 +88,7 @@ export function BrandLogo({ size = 'md', interactive = true, link = true }) {
   if (!link) return content;
 
   return (
-    <Link to="/" className="inline-block focus:outline-none">
+    <Link to="/" className="inline-flex items-center focus:outline-none shrink-0" aria-label="Ataa Home">
       {content}
     </Link>
   );
