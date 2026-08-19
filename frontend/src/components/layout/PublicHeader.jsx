@@ -71,8 +71,8 @@ export function PublicHeader() {
           {/* Futuristic Interactive Brand Logo - Always on the Left */}
           <BrandLogo />
 
-          {/* Desktop Nav Links - Centered */}
-          <nav className="hidden lg:flex items-center space-x-1" dir={isArabic ? 'rtl' : 'ltr'}>
+          {/* Desktop Nav Links - Centered in Stable Left-to-Right Flow */}
+          <nav className="hidden lg:flex items-center gap-1" dir="ltr">
             {navLinks.map((item) => {
               const isActive = location.pathname === item.to;
               return (
@@ -119,7 +119,7 @@ export function PublicHeader() {
               </button>
 
               {portalsMenuOpen && (
-                <div className="absolute end-0 mt-2 w-64 rounded-2xl bg-white dark:bg-surface-darkCard border border-stone-200 dark:border-stone-800 shadow-xl p-2 z-50 space-y-1 animate-in fade-in zoom-in-95">
+                <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white dark:bg-surface-darkCard border border-stone-200 dark:border-stone-800 shadow-xl p-2 z-50 space-y-1 animate-in fade-in zoom-in-95" dir={isArabic ? 'rtl' : 'ltr'}>
                   <div className="px-3 py-2 border-b border-stone-100 dark:border-stone-800">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
                       {isArabic ? 'بوابات المنصة والاعتماد' : 'Platform Portals & Access'}
