@@ -10,8 +10,8 @@ export function AdminHeader({ title, subtitle }) {
   const { user } = useAuth();
 
   return (
-    <header className="h-20 bg-white dark:bg-surface-darkCard border-b border-stone-200/80 dark:border-stone-800 px-4 sm:px-8 flex items-center justify-between z-20">
-      <div>
+    <header className="h-20 bg-white dark:bg-surface-darkCard border-b border-stone-200/80 dark:border-stone-800 px-4 sm:px-8 flex items-center justify-between z-20" dir="ltr">
+      <div className="text-start" dir={document.documentElement.dir || 'rtl'}>
         <h1 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100">
           {title}
         </h1>

@@ -65,14 +65,14 @@ export function PublicHeader() {
         ? 'bg-white/80 dark:bg-surface-dark/85 backdrop-blur-xl shadow-sm border-b border-stone-200/70 dark:border-stone-800/70'
         : 'bg-white/50 dark:bg-surface-dark/60 backdrop-blur-lg border-b border-stone-100/50 dark:border-stone-800/40'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" dir="ltr">
         <div className="flex items-center justify-between h-20">
           
-          {/* Futuristic Interactive Brand Logo */}
+          {/* Futuristic Interactive Brand Logo - Always on the Left */}
           <BrandLogo />
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center space-x-1 rtl:space-x-reverse">
+          {/* Desktop Nav Links - Centered */}
+          <nav className="hidden lg:flex items-center space-x-1" dir={isArabic ? 'rtl' : 'ltr'}>
             {navLinks.map((item) => {
               const isActive = location.pathname === item.to;
               return (
