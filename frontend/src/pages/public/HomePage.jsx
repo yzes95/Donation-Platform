@@ -96,12 +96,30 @@ export function HomePage() {
             </div>
 
             {/* Main Title */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-100 tracking-tight leading-[1.15] font-display">
-              {t('hero.title')}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 dark:text-stone-100 tracking-normal leading-[1.4] sm:leading-[1.35] lg:leading-[1.35] font-display">
+              {isArabic ? (
+                <span className="block space-y-2">
+                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary-700 via-teal-600 to-emerald-600 dark:from-primary-400 dark:via-teal-300 dark:to-emerald-400 font-black">
+                    عطاء مباشر..
+                  </span>{' '}
+                  <span className="inline-block">
+                    يصنع فارقاً حقيقياً في حياة الأسر المتعففة
+                  </span>
+                </span>
+              ) : (
+                <span className="block space-y-2">
+                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary-700 via-teal-600 to-emerald-600 dark:from-primary-400 dark:via-teal-300 dark:to-emerald-400 font-black">
+                    Direct Giving..
+                  </span>{' '}
+                  <span className="inline-block">
+                    Making a Real Difference in Families' Lives
+                  </span>
+                </span>
+              )}
             </h1>
 
             {/* Description */}
-            <p className="text-base sm:text-lg text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
+            <p className="text-base sm:text-lg text-stone-600 dark:text-stone-300 leading-relaxed sm:leading-loose font-normal max-w-2xl mx-auto pt-1">
               {t('hero.description')}
             </p>
 

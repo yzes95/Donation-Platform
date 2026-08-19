@@ -11,6 +11,14 @@ export function BrandLogo({ size = 'md', interactive = true, link = true }) {
 
   const [isHovered, setIsHovered] = useState(false);
 
+  // English letters for cascading wave in strict LTR
+  const englishLetters = [
+    { char: 'A', delay: 0.1 },
+    { char: 't', delay: 0.18 },
+    { char: 'a', delay: 0.26 },
+    { char: 'a', delay: 0.34 },
+  ];
+
   const content = (
     <div
       className="relative inline-flex items-center gap-3 select-none group cursor-pointer"
@@ -42,38 +50,71 @@ export function BrandLogo({ size = 'md', interactive = true, link = true }) {
         <span className="absolute top-1 end-1 w-2 h-2 rounded-full bg-warm-400 shadow-sm shadow-warm-400 animate-pulse" />
       </motion.div>
 
-      {/* Brand Typography Lockup with Strict Script Directions */}
+      {/* Brand Typography Lockup with Cascading Wave Ripple */}
       <div className="flex flex-col justify-center min-w-0">
         <div className="flex items-center gap-2">
           
-          {/* Arabic Connected Word - Always RTL */}
-          <span
+          {/* Arabic Connected Word - Wavy bounce & Neon pulse (Always RTL) */}
+          <motion.span
             dir="rtl"
             lang="ar"
-            className={`font-display text-2xl font-black tracking-normal transition-all duration-300 ${
+            className="font-display text-2xl font-black text-stone-900 dark:text-stone-100 inline-block tracking-normal"
+            animate={
               isHovered
-                ? 'text-transparent bg-clip-text bg-gradient-to-l from-teal-500 via-emerald-400 to-warm-500 drop-shadow-[0_0_12px_rgba(20,184,166,0.5)]'
-                : 'text-stone-900 dark:text-stone-100'
-            }`}
+                ? {
+                    y: [0, -4, 0],
+                    color: ['#0F766E', '#14B8A6', '#F59E0B', '#0F766E'],
+                    textShadow: [
+                      '0 0 0px rgba(20,184,166,0)',
+                      '0 0 14px rgba(20,184,166,0.85), 0 0 24px rgba(245,158,11,0.5)',
+                      '0 0 0px rgba(20,184,166,0)'
+                    ]
+                  }
+                : { y: 0, textShadow: 'none' }
+            }
+            transition={{
+              duration: 0.6,
+              delay: 0,
+              repeat: isHovered ? Infinity : 0,
+              repeatDelay: 0.6
+            }}
           >
             عطاء
-          </span>
+          </motion.span>
 
           {/* Divider */}
           <span className="text-stone-300 dark:text-stone-700 font-light select-none text-base">|</span>
 
-          {/* English Word - Always LTR */}
-          <span
-            dir="ltr"
-            lang="en"
-            className={`font-sans text-lg font-extrabold tracking-tight transition-all duration-300 ${
-              isHovered
-                ? 'text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-warm-500 to-teal-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]'
-                : 'text-primary-700 dark:text-primary-400'
-            }`}
-          >
-            Ataa
-          </span>
+          {/* English Letters with Cascading Wave Animation (Strict LTR) */}
+          <div dir="ltr" className="flex items-center font-sans text-lg font-bold text-primary-700 dark:text-primary-400">
+            {englishLetters.map((l, index) => (
+              <motion.span
+                key={index}
+                className="inline-block"
+                animate={
+                  isHovered
+                    ? {
+                        y: [0, -4, 0],
+                        color: ['#0F766E', '#F59E0B', '#14B8A6', '#0F766E'],
+                        textShadow: [
+                          '0 0 0px rgba(245,158,11,0)',
+                          '0 0 10px rgba(245,158,11,0.85), 0 0 18px rgba(20,184,166,0.5)',
+                          '0 0 0px rgba(245,158,11,0)'
+                        ]
+                      }
+                    : { y: 0, textShadow: 'none' }
+                }
+                transition={{
+                  duration: 0.6,
+                  delay: l.delay,
+                  repeat: isHovered ? Infinity : 0,
+                  repeatDelay: 0.6
+                }}
+              >
+                {l.char}
+              </motion.span>
+            ))}
+          </div>
         </div>
 
         {/* Tagline */}
