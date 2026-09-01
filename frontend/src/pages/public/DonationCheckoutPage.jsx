@@ -58,7 +58,9 @@ export function DonationCheckoutPage() {
 
   const selectedCaseName = donationState.family
     ? (isArabic ? donationState.family.nameAr : donationState.family.nameEn)
-    : 'صندوق دعم الأسر المتعففة والحالات الإنسانية العام';
+    : (isArabic
+        ? 'صندوق دعم الأسر المتعففة والحالات الإنسانية العام'
+        : 'General Humanitarian & Needy Families Support Fund');
 
   const selectedServiceName = currentSelectedService
     ? (isArabic ? currentSelectedService.titleAr : currentSelectedService.titleEn)
