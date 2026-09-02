@@ -39,11 +39,7 @@ To ensure **100% of donor family pledges reach beneficiaries without administrat
 
 ## 👨‍👩‍👧‍👦 Registered Family Cases
 
-The platform manages verified family cases with strict field researcher documentation:
-
-- **أسرة عم إبراهيم أبو نافع (عجز كلي وسداد ديون)** — *Amm Ibrahim Abo Nafee Family (Total Disability & Debt Relief)*
-- **أسرة عمار أبو شويعي (علاج وترميم مدافن وسكن)** — *Ammar Aboshwemy Family (Medical Treatment & Housing/Burial Restoration)*
-
+The platform manages verified family cases with strict field researcher documentation
 ---
 
 ## 🚀 Key Features
