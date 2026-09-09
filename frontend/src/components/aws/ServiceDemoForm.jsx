@@ -1,105 +1,133 @@
 import { useState } from 'react';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
-export const ServiceDemoForm = ({ onSubmit, simulationStep, isLive }) => {
-  const [refId, setRefId] = useState('');
+const STEPS = [
+  { key: 'submitting', label: 'Browser', icon: '🌐' },
+  { key: 'alb',        label: 'ALB',     icon: '⚖️' },
+  { key: 'ec2',        label: 'EC2',     icon: '🖥️' },
+  { key: 'rds',        label: 'RDS',     icon: '🗄️' },
+  { key: 's3',         label: 'S3',      icon: '🪣' },
+  { key: 'complete',   label: 'Done',    icon: '✅' },
+];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setRefId(`SRV-${Math.random().toString(16).substring(2, 8).toUpperCase()}`);
-    onSubmit();
-  };
+const CATEGORIES = [
+  { value: 'medical',     label: 'Medical / طبي' },
+  { value: 'housing',     label: 'Housing / سكن' },
+  { value: 'debt_relief', label: 'Debt Relief / سداد ديون' },
+  { value: 'education',   label: 'Education / تعليم' },
+  { value: 'seasonal',    label: 'Seasonal / موسمي' },
+  { value: 'emergencies', label: 'Emergencies / طوارئ' },
+];
 
-  const isIdle = simulationStep === 'idle' || simulationStep === 'complete' || simulationStep === 'error';
+const FAMILIES = [
+  { value: 'fam-02', label: 'أسرة عم إبراهيم أبو نافع' },
+  { value: 'fam-01', label: 'أسرة عمار أبو شويعي' },
+];
 
-  const steps = [
-    { id: 'submitting', label: 'Browser' },
-    { id: 'alb', label: 'ALB' },
-    { id: 'ec2', label: 'EC2' },
-    { id: 'rds', label: 'RDS' },
-    { id: 's3', label: 'S3' },
-    { id: 'complete', label: '✅' }
-  ];
+export function ServiceDemoForm({ onSubmit, simulationStep, isLive }) {
+  const [form, setForm] = useState({
+    title_ar: 'مساعدة عيد سعيد - أسرة عم إبراهيم',
+    title_en: 'Eid Aid - Ibrahim Family',
+    category: 'seasonal',
+    target_amount: 3500,
+    description_ar: 'توفير ملابس عيد وهدايا للأطفال وسداد فاتورة الكهرباء المتأخرة',
+    family_id: 'fam-02',
+  });
+
+  const isBusy = simulationStep !== 'idle' && simulationStep !== 'complete' && simulationStep !== 'error';
+  const activeStepIdx = STEPS.findIndex(s => s.key === simulationStep);
+  const refId = 'SRV-' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 shadow-xl relative overflow-hidden">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-xl font-bold text-white mb-1">Add Assistance Need</h2>
-          <h3 className="text-sm text-gray-400" dir="rtl">إضافة احتياج جديد</h3>
-        </div>
-        <div className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2 ${isLive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'}`}>
-          <span className="relative flex h-2 w-2">
-            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isLive ? 'bg-emerald-400' : 'bg-orange-400'}`}></span>
-            <span className={`relative inline-flex rounded-full h-2 w-2 ${isLive ? 'bg-emerald-500' : 'bg-orange-500'}`}></span>
-          </span>
-          {isLive ? 'Live — AWS Connected' : 'Simulation Mode'}
-        </div>
+    <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 flex flex-col gap-4 h-full">
+      <div>
+        <h2 className="text-base font-bold text-white">Add Assistance Need</h2>
+        <p className="text-xs text-gray-500 mt-0.5">إضافة احتياج جديد</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Service Title (Arabic)</label>
-            <input type="text" defaultValue="مساعدة عيد سعيد - أسرة عم إبراهيم" dir="rtl" className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" disabled={!isIdle} />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Service Title (English)</label>
-            <input type="text" defaultValue="Eid Aid - Ibrahim Family" className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" disabled={!isIdle} />
-          </div>
-        </div>
+      {/* Status badge */}
+      <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold w-fit border ${
+        isLive ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/10 text-orange-400 border-orange-500/30'
+      }`}>
+        <span className="relative flex h-2 w-2">
+          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isLive ? 'bg-emerald-400' : 'bg-orange-400'}`} />
+          <span className={`relative inline-flex rounded-full h-2 w-2 ${isLive ? 'bg-emerald-500' : 'bg-orange-500'}`} />
+        </span>
+        {isLive ? 'Live — AWS Connected' : 'Simulation Mode'}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Fields */}
+      <div className="flex flex-col gap-3">
+        <div>
+          <label className="block text-xs text-gray-400 mb-1">Service Title (Arabic)</label>
+          <input dir="rtl" disabled={isBusy} value={form.title_ar}
+            onChange={e => setForm(f => ({ ...f, title_ar: e.target.value }))}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors" />
+        </div>
+        <div>
+          <label className="block text-xs text-gray-400 mb-1">Service Title (English)</label>
+          <input disabled={isBusy} value={form.title_en}
+            onChange={e => setForm(f => ({ ...f, title_en: e.target.value }))}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs text-gray-400 mb-1">Category</label>
-            <select defaultValue="seasonal" className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none appearance-none" disabled={!isIdle}>
-              <option value="medical">Medical</option>
-              <option value="housing">Housing</option>
-              <option value="debt_relief">Debt Relief</option>
-              <option value="education">Education</option>
-              <option value="seasonal">Seasonal</option>
-              <option value="emergencies">Emergencies</option>
+            <select disabled={isBusy} value={form.category}
+              onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+              {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-400 mb-1">Target Amount (EGP)</label>
-            <input type="number" defaultValue="3500" className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" disabled={!isIdle} />
+            <label className="block text-xs text-gray-400 mb-1">Amount (EGP)</label>
+            <input type="number" disabled={isBusy} value={form.target_amount}
+              onChange={e => setForm(f => ({ ...f, target_amount: Number(e.target.value) }))}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors" />
           </div>
         </div>
-
         <div>
           <label className="block text-xs text-gray-400 mb-1">Family</label>
-          <select defaultValue="fam-02" className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none appearance-none" disabled={!isIdle} dir="rtl">
-            <option value="fam-02">أسرة عم إبراهيم أبو نافع (fam-02)</option>
-            <option value="fam-01">أسرة عمار أبو شويعي (fam-01)</option>
+          <select disabled={isBusy} value={form.family_id}
+            onChange={e => setForm(f => ({ ...f, family_id: e.target.value }))}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+            {FAMILIES.map(fam => <option key={fam.value} value={fam.value}>{fam.label}</option>)}
           </select>
         </div>
-
         <div>
           <label className="block text-xs text-gray-400 mb-1">Description (Arabic)</label>
-          <textarea defaultValue="توفير ملابس عيد وهدايا للأطفال وسداد فاتورة الكهرباء المتأخرة" dir="rtl" rows={2} className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none resize-none" disabled={!isIdle} />
+          <textarea dir="rtl" rows={2} disabled={isBusy} value={form.description_ar}
+            onChange={e => setForm(f => ({ ...f, description_ar: e.target.value }))}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none" />
         </div>
+      </div>
 
-        <button 
-          type="submit" 
-          disabled={!isIdle}
-          className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-semibold rounded-lg px-4 py-3 transition-colors mt-4"
-        >
-          {simulationStep === 'idle' || simulationStep === 'complete' || simulationStep === 'error' ? 'Send to AWS Backend' : 'Processing...'}
-        </button>
-      </form>
+      {/* Submit */}
+      <button onClick={() => onSubmit(form)} disabled={isBusy}
+        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl font-semibold text-sm transition-all bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40 disabled:cursor-not-allowed">
+        {isBusy ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
+        {isBusy ? 'Processing…' : 'Send to AWS Backend'}
+      </button>
 
-      {!isIdle && simulationStep !== 'idle' && simulationStep !== 'error' && simulationStep !== 'complete' && (
-        <div className="mt-6 border-t border-gray-800 pt-6">
-          <div className="flex justify-between items-center text-xs font-mono text-gray-400 px-2 relative">
-            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gray-800 -z-10" />
-            {steps.map((step) => {
-              const isActive = simulationStep === step.id;
-              const isPast = steps.findIndex(s => s.id === simulationStep) > steps.findIndex(s => s.id === step.id);
+      {/* Step tracker */}
+      {simulationStep !== 'idle' && (
+        <div>
+          <p className="text-xs text-gray-600 mb-2">Request journey:</p>
+          <div className="flex items-center flex-wrap gap-1">
+            {STEPS.map((step, idx) => {
+              const done = activeStepIdx > idx || simulationStep === 'complete';
+              const active = step.key === simulationStep;
               return (
-                <div key={step.id} className={`flex flex-col items-center gap-2 ${isActive ? 'text-emerald-400' : isPast ? 'text-gray-300' : 'text-gray-600'}`}>
-                  <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-emerald-400 ring-4 ring-emerald-400/20 shadow-[0_0_10px_rgba(52,211,153,0.5)]' : isPast ? 'bg-gray-400' : 'bg-gray-800 border border-gray-700'}`} />
-                  <span className={isActive ? 'font-bold' : ''}>{step.label}</span>
+                <div key={step.key} className="flex items-center gap-1">
+                  <div className={`flex items-center gap-1 px-2 py-0.5 rounded text-xs border transition-all ${
+                    active ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 scale-105'
+                    : done ? 'bg-gray-800 text-gray-300 border-gray-700'
+                    : 'bg-transparent text-gray-600 border-gray-800'
+                  }`}>
+                    {step.icon} {step.label}
+                    {active && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-1" />}
+                  </div>
+                  {idx < STEPS.length - 1 && <span className={`text-xs ${done ? 'text-emerald-700' : 'text-gray-800'}`}>›</span>}
                 </div>
               );
             })}
@@ -107,25 +135,21 @@ export const ServiceDemoForm = ({ onSubmit, simulationStep, isLive }) => {
         </div>
       )}
 
+      {/* Results */}
       {simulationStep === 'complete' && (
-        <div className="mt-6 bg-emerald-950/40 border border-emerald-500/30 rounded-lg p-4 flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-          <div>
-            <h4 className="text-emerald-400 font-semibold text-sm">Successfully created in AWS</h4>
-            <p className="text-emerald-200/70 text-xs mt-1">Reference ID: <span className="font-mono bg-emerald-950 px-1 rounded text-emerald-300">{refId}</span></p>
+        <div className="p-3 bg-emerald-950/50 border border-emerald-800/50 rounded-xl">
+          <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold mb-1">
+            <CheckCircle2 size={14} /> Service created
           </div>
+          <p className="text-xs text-gray-400">Ref: <span className="font-mono text-emerald-300">{refId}</span></p>
+          <button onClick={() => onSubmit(null)} className="mt-2 text-xs text-gray-600 hover:text-gray-400 underline">Reset</button>
         </div>
       )}
-
       {simulationStep === 'error' && (
-        <div className="mt-6 bg-red-950/40 border border-red-500/30 rounded-lg p-4 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-          <div>
-            <h4 className="text-red-400 font-semibold text-sm">Failed to connect to AWS</h4>
-            <p className="text-red-200/70 text-xs mt-1">Check network or backend status.</p>
-          </div>
+        <div className="p-3 bg-red-950/50 border border-red-800/50 rounded-xl flex items-center gap-2 text-red-400 text-sm">
+          <AlertCircle size={14} /> Backend unreachable — check VITE_BACKEND_URL
         </div>
       )}
     </div>
   );
-};
+}

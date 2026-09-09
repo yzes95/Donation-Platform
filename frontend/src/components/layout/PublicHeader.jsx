@@ -59,6 +59,7 @@ export function PublicHeader() {
     { to: '/install', label: isArabic ? 'تطبيق الهاتف' : 'Mobile App', icon: Smartphone, highlight: true },
     { to: '/about', label: t('nav.about'), icon: ShieldCheck },
     { to: '/contact', label: t('nav.contact'), icon: HelpCircle },
+    { to: '/aws-lab', label: isArabic ? 'مختبر AWS' : 'AWS Lab', icon: Server, highlight: true },
   ];
 
   return (

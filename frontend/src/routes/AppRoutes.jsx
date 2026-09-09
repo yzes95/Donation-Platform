@@ -20,6 +20,7 @@ const SupportPlatformPage = lazy(() => import('../pages/public/SupportPlatformPa
 const PlatformTransparencyPage = lazy(() => import('../pages/public/PlatformTransparencyPage').then(m => ({ default: m.PlatformTransparencyPage })));
 const InstallAppPage = lazy(() => import('../pages/public/InstallAppPage').then(m => ({ default: m.InstallAppPage })));
 const ApplyRepresentativePage = lazy(() => import('../pages/public/ApplyRepresentativePage').then(m => ({ default: m.ApplyRepresentativePage })));
+const AwsLabPage = lazy(() => import('../pages/public/AwsLabPage').then(m => ({ default: m.AwsLabPage })));
 
 // Auth Pages
 const LoginPage = lazy(() => import('../pages/auth/LoginPage').then(m => ({ default: m.LoginPage })));
@@ -78,6 +79,7 @@ export function AppRoutes() {
           <Route path="/apply-rep" element={<ApplyRepresentativePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/aws-lab" element={<AwsLabPage />} />
 
           {/* Auth */}
           <Route path="/login" element={<LoginPage />} />
