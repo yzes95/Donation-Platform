@@ -21,7 +21,8 @@ import {
   ShieldAlert,
   UserCheck,
   Sparkles,
-  LogIn
+  LogIn,
+  Server
 } from 'lucide-react';
 import { useAuth } from '../../store/AuthContext';
 
@@ -54,6 +55,7 @@ export function PublicHeader() {
     { to: '/families', label: t('nav.families'), icon: Heart },
     { to: '/support-platform', label: t('nav.supportPlatform'), icon: Cloud },
     { to: '/transparency', label: t('nav.transparency'), icon: FileText },
+    { to: '/aws-lab', label: isArabic ? 'مختبر AWS' : 'AWS Lab', icon: Server, highlight: true },
     { to: '/install', label: isArabic ? 'تطبيق الهاتف' : 'Mobile App', icon: Smartphone, highlight: true },
     { to: '/about', label: t('nav.about'), icon: ShieldCheck },
     { to: '/contact', label: t('nav.contact'), icon: HelpCircle },
