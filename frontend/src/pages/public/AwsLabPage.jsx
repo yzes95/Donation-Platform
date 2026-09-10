@@ -96,22 +96,23 @@ export const AwsLabPage = () => {
           <p className="text-gray-400 max-w-2xl mx-auto">Interactive educational environment to explore how the Ataa platform operates on Amazon Web Services.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          <div className="lg:col-span-5">
-            <ServiceDemoForm 
-              onSubmit={handleSimulate} 
-              simulationStep={simulationStep} 
-              isLive={isLive} 
-            />
-          </div>
-          <div className="lg:col-span-7">
-            <AwsDiagram simulationStep={simulationStep} />
-          </div>
+        {/* Top: Horizontal Service Control Bar */}
+        <div className="mb-6">
+          <ServiceDemoForm 
+            onSubmit={handleSimulate} 
+            simulationStep={simulationStep} 
+            isLive={isLive} 
+          />
         </div>
 
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold mb-6 text-gray-200">Backend Code Security Analysis</h2>
-          <CodePanel simulationStep={simulationStep} />
+        {/* Side-by-Side: AWS Architecture & Backend Code Security Analysis */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-16 items-start">
+          <div className="flex flex-col gap-2">
+            <AwsDiagram simulationStep={simulationStep} />
+          </div>
+          <div className="flex flex-col gap-2">
+            <CodePanel simulationStep={simulationStep} />
+          </div>
         </div>
 
         <ComponentGlossary />
