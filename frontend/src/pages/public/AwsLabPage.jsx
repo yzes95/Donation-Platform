@@ -17,7 +17,12 @@ export const AwsLabPage = () => {
     }
   }, []);
 
-  const handleSimulate = async () => {
+  const handleSimulate = async (formData) => {
+    if (!formData) {
+      setSimulationStep('idle');
+      return;
+    }
+
     if (isLive) {
       // Real API Call
       setSimulationStep('submitting');
