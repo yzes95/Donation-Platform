@@ -4,6 +4,7 @@ import { AwsLoginModal } from '../../components/aws/AwsLoginModal';
 import { AwsDiagram } from '../../components/aws/AwsDiagram';
 import { CodePanel } from '../../components/aws/CodePanel';
 import { ServiceDemoForm } from '../../components/aws/ServiceDemoForm';
+import { ServiceFlowWalkthrough } from '../../components/aws/ServiceFlowWalkthrough';
 import { ComponentGlossary } from '../../components/aws/ComponentGlossary';
 
 export const AwsLabPage = () => {
@@ -159,6 +160,13 @@ export const AwsLabPage = () => {
             />
           </div>
         </div>
+
+        {/* End-to-End Service Flow Walkthrough */}
+        <ServiceFlowWalkthrough 
+          simulationStep={simulationStep}
+          selectedStep={manualSelectedStep}
+          onSelectStep={handleSelectNode}
+        />
 
         {/* AWS Component Glossary */}
         <ComponentGlossary />
