@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { RefreshCw, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { RefreshCw, AlertCircle, Play, Eye } from 'lucide-react';
 
 const FILES = {
   'main.py':       'https://raw.githubusercontent.com/yzes95/Donation-Platform-Backend/main/main.py',
@@ -11,30 +12,32 @@ const FILES = {
 
 const ANNOTATIONS = {
   'main.py': [
-    { match: 'allow_origins', type: 'warning', msg: 'CORS: ensure allow_origins is a strict whitelist in production — never use ["*"]' },
+    { match: 'allow_origins', type: 'warning', msg_en: 'CORS: ensure allow_origins is a strict whitelist in production — never use ["*"]', msg_ar: 'CORS: يجب تحديد النطاقات المسموح بها بدقة في بيئة الإنتاج وعدم استخدام ["*"]' },
   ],
   'settings.py': [
-    { match: 'DEBUG: bool = True', type: 'critical', msg: '🔴 CRITICAL — DEBUG=True exposes the full Python stack trace to anyone who triggers a 500 error in production' },
-    { match: 'DATABASE_URL', type: 'warning', msg: '🟡 Database credentials should live in AWS Secrets Manager or Parameter Store — not a .env file on the server' },
-    { match: 'SECRET_KEY', type: 'critical', msg: '🔴 This fallback secret is hardcoded and visible in your public GitHub repo — an attacker can forge valid JWT tokens using it' },
-    { match: 'change-this', type: 'critical', msg: '🔴 Plaintext secret committed to git history — rotate immediately and load from Secrets Manager instead' },
+    { match: 'DEBUG: bool = True', type: 'critical', msg_en: '🔴 CRITICAL — DEBUG=True exposes full Python stack traces to anyone who triggers an error in production', msg_ar: '🔴 حرج — وضع التصحيح DEBUG=True يسرب تتبع الأخطاء البرمجية بالكامل عند حدوث أي خطأ' },
+    { match: 'DATABASE_URL', type: 'warning', msg_en: '🟡 Store database credentials in AWS Secrets Manager or Parameter Store — not in plaintext server files', msg_ar: '🟡 يفضل حفظ بيانات الاتصال بقاعدة البيانات في AWS Secrets Manager بدلاً من الملفات النصية' },
+    { match: 'SECRET_KEY', type: 'critical', msg_en: '🔴 Hardcoded fallback secret key visible in public GitHub repo — allows forging valid JWT tokens', msg_ar: '🔴 مفتاح التشفير الاحتياطي مكشوف في مستودع GitHub العام مما يتيح تزوير توكن المصادقة' },
+    { match: 'change-this', type: 'critical', msg_en: '🔴 Plaintext secret committed to git history — rotate immediately and load from Secrets Manager', msg_ar: '🔴 تم حفظ كلمة سر افتراضية في سجل Git — يجب تدويرها وتحميلها عبر Secrets Manager' },
   ],
   'admin.py': [
-    { match: 'async def admin_test', type: 'critical', msg: '🔴 NO AUTH — This admin endpoint has no authentication dependency. Anyone on the internet can call it freely.' },
+    { match: 'async def admin_test', type: 'critical', msg_en: '🔴 NO AUTH — This admin endpoint has no authentication dependency. Anyone on the internet can call it.', msg_ar: '🔴 ثغرة أمنية — هذا المسار الإداري غير محمي بتوكن المصادقة ويمكن لأي شخص استدعاؤه' },
   ],
   'connection.py': [
-    { match: 'echo=settings.DEBUG', type: 'warning', msg: '🟡 SQLAlchemy echo=True writes every SQL query to stdout — in production this leaks your schema structure to CloudWatch logs' },
+    { match: 'echo=settings.DEBUG', type: 'warning', msg_en: '🟡 SQLAlchemy echo=True logs every SQL query — leaks schema details and sensitive payloads to CloudWatch logs', msg_ar: '🟡 echo=True يسجل كل استعلام SQL مما يسرب هيكل قاعدة البيانات والبيانات إلى سجلات CloudWatch' },
   ],
   'service.py': [
-    { match: 'Float', type: 'info', msg: 'ℹ️ Float uses IEEE 754 — financial amounts like 3500.00 can be stored as 3499.99999... Use Numeric(12,2) for money fields' },
+    { match: 'Float', type: 'info', msg_en: 'ℹ️ Float uses binary IEEE 754 — financial amounts like 3500.00 can suffer precision rounding. Use Numeric(12,2) for money', msg_ar: 'ℹ️ نوع Float قد يتسبب في أخطاء تقريب للأموال (مثل 3499.999). الأفضل استخدام Numeric(12,2)' },
   ],
 };
 
 const STEP_HIGHLIGHTS = {
-  submitting: { file: 'main.py',       term: 'include_router' },
-  ec2:        { file: 'admin.py',      term: 'admin_test' },
-  rds:        { file: 'connection.py', term: 'get_db' },
-  s3:         { file: 'service.py',    term: 'Float' },
+  submitting: { file: 'main.py',       term: 'allow_origins', label_en: 'Browser & CORS Policy', label_ar: 'طلب المتصفح وسياسة CORS' },
+  alb:        { file: 'main.py',       term: 'include_router', label_en: 'ALB Route Forwarding', label_ar: 'توجيه مسارات ALB' },
+  ec2:        { file: 'admin.py',      term: 'admin_test',    label_en: 'FastAPI Container & Route', label_ar: 'حاوية FastAPI ومعالج الطلب' },
+  rds:        { file: 'connection.py', term: 'get_db',        label_en: 'PostgreSQL Session & Database', label_ar: 'جلسة قاعدة بيانات PostgreSQL' },
+  s3:         { file: 'service.py',    term: 'Float',         label_en: 'Service Schema & Data Model', label_ar: 'نموذج بيانات الحالة والتخزين' },
+  cloudwatch: { file: 'settings.py',   term: 'DEBUG',         label_en: 'CloudWatch & Configuration', label_ar: 'إعدادات وسجلات CloudWatch' },
 };
 
 const KEYWORDS = new Set([
@@ -59,24 +62,25 @@ const ANN_STYLE = {
   info:     { border: 'border-blue-500/40',   bg: 'bg-blue-950/20',   icon: 'ℹ️', tip: 'bg-gray-950 border-blue-700' },
 };
 
-function Line({ text, num, ann, highlighted }) {
+function Line({ text, num, ann, highlighted, isArabic }) {
   const [tip, setTip] = useState(false);
   const s = ann ? ANN_STYLE[ann.type] : null;
+  const msg = ann ? (isArabic ? ann.msg_ar : ann.msg_en) : '';
 
   return (
     <div className={`relative flex border-l-2 hover:bg-white/[0.02] transition-colors ${
-      highlighted ? 'bg-emerald-900/15' : ''
+      highlighted ? 'bg-emerald-900/25 border-l-emerald-400' : ''
     } ${s ? `${s.border} ${s.bg}` : 'border-transparent'}`}>
       <span className="select-none w-10 text-right pr-3 py-0.5 text-gray-700 text-xs shrink-0 leading-5">{num}</span>
-      <pre className={`flex-1 py-0.5 pr-2 text-xs leading-5 whitespace-pre ${getLineClass(text)}`}>{text}</pre>
+      <pre className={`flex-1 py-0.5 pr-2 text-xs leading-5 whitespace-pre font-mono ${getLineClass(text)}`}>{text}</pre>
       {s && (
         <div className="relative flex items-center shrink-0 pr-2">
           <button onMouseEnter={() => setTip(true)} onMouseLeave={() => setTip(false)} className="text-xs px-1">
             {s.icon}
           </button>
           {tip && (
-            <div className={`absolute right-7 top-0 z-50 w-72 border text-xs p-2.5 rounded-lg shadow-2xl leading-relaxed text-gray-200 ${s.tip}`}>
-              {ann.msg}
+            <div className={`absolute right-7 top-0 z-50 w-72 border text-xs p-2.5 rounded-lg shadow-2xl leading-relaxed text-gray-200 ${s.tip}`} dir={isArabic ? 'rtl' : 'ltr'}>
+              {msg}
             </div>
           )}
         </div>
@@ -85,7 +89,10 @@ function Line({ text, num, ann, highlighted }) {
   );
 }
 
-export function CodePanel({ simulationStep }) {
+export function CodePanel({ simulationStep, isManualOverride, onFollowSimulation }) {
+  const { i18n } = useTranslation();
+  const isArabic = (i18n.language || 'ar').startsWith('ar');
+
   const [files, setFiles] = useState({});
   const [active, setActive] = useState('main.py');
   const [loading, setLoading] = useState(true);
@@ -118,68 +125,104 @@ export function CodePanel({ simulationStep }) {
   const anns = ANNOTATIONS[active] || [];
   const hl = STEP_HIGHLIGHTS[simulationStep];
   const hlTerm = hl?.file === active ? hl.term : null;
+  const hlLabel = hl ? (isArabic ? hl.label_ar : hl.label_en) : null;
   const lines = (files[active] || '').split('\n');
 
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-2xl overflow-hidden">
+    <div className="bg-gray-900 border border-gray-700 rounded-2xl overflow-hidden flex flex-col h-full shadow-2xl">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-bold text-white">Backend Code · Security Analysis</span>
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live from GitHub
+      <div className="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-800 bg-gray-950/60 gap-2">
+        <div className="flex items-center gap-2.5">
+          <span className="text-xs font-bold text-white tracking-wide">
+            {isArabic ? 'كود الـ Backend · الفحص الأمني' : 'Backend Code · Security Analysis'}
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[11px] text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> 
+            {isArabic ? 'مباشر من GitHub' : 'Live from GitHub'}
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          {fetchedAt && <span className="text-xs text-gray-600">at {fetchedAt}</span>}
-          <button onClick={load} disabled={loading} className="text-gray-500 hover:text-gray-300 disabled:opacity-40">
+
+        <div className="flex items-center gap-2.5">
+          {isManualOverride && (
+            <button
+              onClick={onFollowSimulation}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 transition-all animate-pulse"
+              title={isArabic ? 'العودة لمزامنة المحاكاة الحية' : 'Resume live simulation sync'}
+            >
+              <Play size={11} />
+              {isArabic ? 'متابعة التدفق الحي' : 'Follow Simulation'}
+            </button>
+          )}
+
+          {fetchedAt && <span className="text-xs text-gray-500 hidden sm:inline">{fetchedAt}</span>}
+          <button onClick={load} disabled={loading} className="text-gray-500 hover:text-gray-300 disabled:opacity-40 p-1" title="Reload from GitHub">
             <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
           </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-800 overflow-x-auto">
+      <div className="flex border-b border-gray-800 overflow-x-auto bg-gray-950/30">
         {Object.keys(FILES).map(name => {
           const n = (ANNOTATIONS[name] || []).length;
           return (
             <button key={name} onClick={() => setActive(name)}
-              className={`px-4 py-2 text-xs font-mono shrink-0 border-b-2 transition-colors ${
-                active === name ? 'text-emerald-400 border-emerald-500 bg-emerald-950/10' : 'text-gray-500 border-transparent hover:text-gray-300'
+              className={`px-3.5 py-2 text-xs font-mono shrink-0 border-b-2 transition-colors ${
+                active === name ? 'text-emerald-400 border-emerald-500 bg-emerald-950/20 font-bold' : 'text-gray-500 border-transparent hover:text-gray-300'
               }`}>
-              {name}{n > 0 && <span className="ml-1.5 text-red-400">({n})</span>}
+              {name}{n > 0 && <span className="ml-1 text-red-400">({n})</span>}
             </button>
           );
         })}
       </div>
 
-      {/* Legend */}
-      <div className="flex flex-wrap items-center gap-4 px-4 py-1.5 bg-gray-950/40 border-b border-gray-800 text-xs">
-        <span className="text-gray-600">Annotations:</span>
-        <span className="text-red-400">🔴 Critical</span>
-        <span className="text-yellow-400">🟡 Warning</span>
-        <span className="text-blue-400">ℹ️ Best practice</span>
-        {hlTerm && <span className="ml-auto text-emerald-500">▶ Step highlight: <code className="font-mono">{hlTerm}</code></span>}
+      {/* Active Inspection Bar & Legend */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2 bg-gray-950/70 border-b border-gray-800 text-xs">
+        <div className="flex items-center gap-3">
+          <span className="text-gray-500 font-medium">{isArabic ? 'الملاحظات:' : 'Alerts:'}</span>
+          <span className="text-red-400 font-mono">🔴 {isArabic ? 'حرج' : 'Critical'}</span>
+          <span className="text-yellow-400 font-mono">🟡 {isArabic ? 'تحذير' : 'Warning'}</span>
+          <span className="text-blue-400 font-mono">ℹ️ {isArabic ? 'أفضل ممارسة' : 'Best Practice'}</span>
+        </div>
+
+        {hlTerm && (
+          <div className="flex items-center gap-1.5 text-sky-400 font-medium">
+            <Eye size={12} />
+            <span>{hlLabel}:</span>
+            <code className="font-mono bg-sky-950/50 text-sky-300 px-1.5 py-0.5 rounded border border-sky-800/40 text-[11px]">{hlTerm}</code>
+          </div>
+        )}
       </div>
 
       {/* Code body */}
-      <div className="overflow-auto" style={{ maxHeight: '420px' }}>
+      <div className="overflow-auto flex-1 min-h-[380px] max-h-[500px]">
         {loading && (
-          <div className="flex items-center justify-center py-14 gap-2 text-gray-500">
-            <RefreshCw size={14} className="animate-spin" />
-            <span className="text-sm">Fetching from GitHub…</span>
+          <div className="flex items-center justify-center py-16 gap-2 text-gray-500">
+            <RefreshCw size={15} className="animate-spin" />
+            <span className="text-sm">{isArabic ? 'جاري جلب الكود المباشر من GitHub...' : 'Fetching code from GitHub...'}</span>
           </div>
         )}
         {err && (
-          <div className="flex flex-col items-center py-14 gap-2 text-red-400">
-            <AlertCircle size={18} />
-            <span className="text-sm">Could not reach GitHub — check connection.</span>
-            <button onClick={load} className="text-xs text-gray-500 hover:text-gray-300 underline mt-1">Retry</button>
+          <div className="flex flex-col items-center py-16 gap-2 text-red-400">
+            <AlertCircle size={20} />
+            <span className="text-sm">{isArabic ? 'تعذر الاتصال بـ GitHub' : 'Could not reach GitHub'}</span>
+            <button onClick={load} className="text-xs text-gray-500 hover:text-gray-300 underline mt-1">
+              {isArabic ? 'إعادة المحاولة' : 'Retry'}
+            </button>
           </div>
         )}
         {!loading && !err && lines.map((line, i) => {
           const ann = anns.find(a => line.includes(a.match)) || null;
-          return <Line key={i} text={line} num={i + 1} ann={ann} highlighted={!!(hlTerm && line.includes(hlTerm))} />;
+          return (
+            <Line 
+              key={i} 
+              text={line} 
+              num={i + 1} 
+              ann={ann} 
+              highlighted={!!(hlTerm && line.includes(hlTerm))}
+              isArabic={isArabic}
+            />
+          );
         })}
       </div>
     </div>

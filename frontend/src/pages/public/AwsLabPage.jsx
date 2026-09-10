@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AwsLoginModal } from '../../components/aws/AwsLoginModal';
 import { AwsDiagram } from '../../components/aws/AwsDiagram';
 import { CodePanel } from '../../components/aws/CodePanel';
@@ -6,8 +7,12 @@ import { ServiceDemoForm } from '../../components/aws/ServiceDemoForm';
 import { ComponentGlossary } from '../../components/aws/ComponentGlossary';
 
 export const AwsLabPage = () => {
+  const { i18n } = useTranslation();
+  const isArabic = (i18n.language || 'ar').startsWith('ar');
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [simulationStep, setSimulationStep] = useState('idle');
+  const [manualSelectedStep, setManualSelectedStep] = useState(null);
   const isLive = !!import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -20,8 +25,12 @@ export const AwsLabPage = () => {
   const handleSimulate = async (formData) => {
     if (!formData) {
       setSimulationStep('idle');
+      setManualSelectedStep(null);
       return;
     }
+
+    // Reset manual inspection so live execution is highlighted by default
+    setManualSelectedStep(null);
 
     if (isLive) {
       // Real API Call
@@ -31,26 +40,26 @@ export const AwsLabPage = () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            title_ar: 'مساعدة عيد سعيد - أسرة عم إبراهيم',
-            title_en: 'Eid Aid - Ibrahim Family',
-            category: 'seasonal',
-            target_amount: 3500,
-            description_ar: 'توفير ملابس عيد وهدايا للأطفال وسداد فاتورة الكهرباء المتأخرة',
-            family_id: 'fam-02'
+            title_ar: formData.title_ar,
+            title_en: formData.title_en,
+            category: formData.category,
+            target_amount: formData.target_amount,
+            description_ar: formData.description_ar,
+            family_id: formData.family_id,
           })
         });
 
         if (!response.ok) throw new Error('API Error');
         
-        // Fast-forward animation for real response
+        // Response stages
         setSimulationStep('alb');
-        await new Promise(r => setTimeout(r, 400));
+        await new Promise(r => setTimeout(r, 450));
         setSimulationStep('ec2');
-        await new Promise(r => setTimeout(r, 400));
+        await new Promise(r => setTimeout(r, 450));
         setSimulationStep('rds');
-        await new Promise(r => setTimeout(r, 400));
+        await new Promise(r => setTimeout(r, 450));
         setSimulationStep('s3');
-        await new Promise(r => setTimeout(r, 400));
+        await new Promise(r => setTimeout(r, 450));
         setSimulationStep('complete');
         
       } catch (err) {
@@ -71,29 +80,54 @@ export const AwsLabPage = () => {
         } else {
           clearInterval(interval);
         }
-      }, 800);
+      }, 850);
     }
+  };
+
+  const handleSelectNode = (stepKey) => {
+    setManualSelectedStep(stepKey);
   };
 
   if (!isAuthenticated) {
     return <AwsLoginModal onAuthenticated={() => setIsAuthenticated(true)} />;
   }
 
+  // If user manually selected a node, code panel inspects that step.
+  // Otherwise, it follows the live simulation step.
+  const effectiveCodeStep = manualSelectedStep || simulationStep;
+
   return (
     <div className="bg-gray-950 text-white min-h-screen pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-10 text-center">
-          <div className="inline-flex items-center gap-3 mb-4">
-            <h1 className="text-4xl font-bold text-white">AWS Lab</h1>
-            <div className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-2 ${isLive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'}`}>
-              <span className="relative flex h-2.5 w-2.5">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isLive ? 'bg-emerald-400' : 'bg-orange-400'}`}></span>
-                <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isLive ? 'bg-emerald-500' : 'bg-orange-500'}`}></span>
-              </span>
-              {isLive ? 'Live Connection' : 'Simulation'}
+      {/* Full-width container using available screen real-estate */}
+      <div className="max-w-[1750px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* Header */}
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-gray-800/80 pb-6">
+          <div>
+            <div className="inline-flex items-center gap-3 mb-1.5">
+              <h1 className="text-3xl font-extrabold text-white tracking-tight">
+                {isArabic ? 'مختبر AWS السحابي' : 'AWS Cloud Lab'}
+              </h1>
+              <div className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2 ${
+                isLive 
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                  : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'
+              }`}>
+                <span className="relative flex h-2 w-2">
+                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isLive ? 'bg-emerald-400' : 'bg-orange-400'}`}></span>
+                  <span className={`relative inline-flex rounded-full h-2 w-2 ${isLive ? 'bg-emerald-500' : 'bg-orange-500'}`}></span>
+                </span>
+                {isLive 
+                  ? (isArabic ? 'متصل فعليًا بـ AWS' : 'Live AWS Connected') 
+                  : (isArabic ? 'وضع المحاكاة التفاعلية' : 'Interactive Simulation')}
+              </div>
             </div>
+            <p className="text-gray-400 text-sm max-w-3xl">
+              {isArabic
+                ? 'بيئة تعليمية تفاعلية تحاكي مسار إضافة طلب مساعدة لأسرة متعففة عبر خدمات AWS ومطابقة الكود البرمجي مع بنية السحابة.'
+                : 'Interactive educational environment demonstrating how a family assistance request travels through AWS infrastructure and maps to backend code.'}
+            </p>
           </div>
-          <p className="text-gray-400 max-w-2xl mx-auto">Interactive educational environment to explore how the Ataa platform operates on Amazon Web Services.</p>
         </div>
 
         {/* Top: Horizontal Service Control Bar */}
@@ -105,16 +139,28 @@ export const AwsLabPage = () => {
           />
         </div>
 
-        {/* Side-by-Side: AWS Architecture & Backend Code Security Analysis */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-16 items-start">
-          <div className="flex flex-col gap-2">
-            <AwsDiagram simulationStep={simulationStep} />
+        {/* Side-by-Side: 60/40 Split between AWS Diagram & Backend Code */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-16 items-start">
+          {/* Diagram: 60% width (7 cols) */}
+          <div className="xl:col-span-7 flex flex-col h-full">
+            <AwsDiagram 
+              simulationStep={simulationStep} 
+              selectedNode={manualSelectedStep}
+              onSelectNode={handleSelectNode}
+            />
           </div>
-          <div className="flex flex-col gap-2">
-            <CodePanel simulationStep={simulationStep} />
+
+          {/* Code Panel: 40% width (5 cols) */}
+          <div className="xl:col-span-5 flex flex-col h-full">
+            <CodePanel 
+              simulationStep={effectiveCodeStep}
+              isManualOverride={!!manualSelectedStep}
+              onFollowSimulation={() => setManualSelectedStep(null)}
+            />
           </div>
         </div>
 
+        {/* AWS Component Glossary */}
         <ComponentGlossary />
       </div>
     </div>
